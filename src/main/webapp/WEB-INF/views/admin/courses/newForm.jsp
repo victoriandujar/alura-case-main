@@ -38,21 +38,26 @@
             <form:errors path="instructor" cssClass="text-danger"/>
         </div>
 
+        <!-- Dropdown de categorias -->
         <div class="form-group col-md-9">
-            <label for="newCourse-category">Categoria:</label>
-            <form:input path="category" id="newCourse-category" cssClass="form-control" required="required"/>
-            <form:errors path="category" cssClass="text-danger"/>
+            <label for="newCourse-categoryId">Categoria:</label>
+            <form:select path="categoryId" id="newCourse-categoryId" cssClass="form-control" required="required">
+                <form:option value="" label="-- Selecione a categoria --"/>
+                <form:options items="${categories}" itemValue="id" itemLabel="name"/>
+            </form:select>
+            <form:errors path="categoryId" cssClass="text-danger"/>
         </div>
 
         <div class="form-group col-md-9">
             <label for="newCourse-description">Descrição:</label>
-            <form:input path="description" id="newCourse-description" cssClass="form-control"/>
+            <form:textarea path="description" id="newCourse-description" cssClass="form-control"/>
             <form:errors path="description" cssClass="text-danger"/>
         </div>
 
         <div class="form-group col-md-9 mt-3">
             <input class="btn btn-success" type="submit" value="Salvar"/>
         </div>
+
     </form:form>
 </div>
 

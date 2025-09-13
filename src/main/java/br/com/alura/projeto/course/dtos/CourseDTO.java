@@ -1,6 +1,6 @@
 package br.com.alura.projeto.course.dtos;
-import jakarta.validation.constraints.*;
 
+import jakarta.validation.constraints.*;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -19,13 +19,14 @@ public class CourseDTO implements Serializable {
     @NotBlank(message = "Inform the instructor")
     private String instructor;
 
-    @NotBlank(message = "Enter the category")
-    private String category;
+    @NotNull(message = "Category is required")
+    private Long categoryId;
 
     private String description;
 
     public CourseDTO() {}
 
+    // getters e setters
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
@@ -35,8 +36,8 @@ public class CourseDTO implements Serializable {
     public String getInstructor() { return instructor; }
     public void setInstructor(String instructor) { this.instructor = instructor; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public Long getCategoryId() { return categoryId; }
+    public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

@@ -19,12 +19,12 @@ public class CourseResponseDTO implements Serializable {
     private String status;
     private LocalDate inactivation_date;
 
-    public CourseResponseDTO(@org.jetbrains.annotations.NotNull Course course) {
+    public CourseResponseDTO(Course course) {
         this.id = course.getId();
         this.name = course.getName();
         this.code = course.getCode();
         this.instructor = course.getInstructor();
-        this.category = course.getCategory();
+        this.category = course.getCategory() != null ? course.getCategory().getName() : null;
         this.description = course.getDescription();
         this.status = course.getStatus().name();
         this.inactivation_date = course.getInactivationDate();

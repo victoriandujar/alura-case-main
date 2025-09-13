@@ -1,5 +1,7 @@
 package br.com.alura.projeto.course.controllers;
 
+import br.com.alura.projeto.category.Category;
+import br.com.alura.projeto.category.CategoryService;
 import br.com.alura.projeto.course.dtos.CourseDTO;
 import br.com.alura.projeto.course.dtos.CourseResponseDTO;
 import br.com.alura.projeto.course.services.CourseService;
@@ -17,11 +19,14 @@ import java.util.List;
 public class CourseController {
 
     private final CourseService courseService;
+    private final CategoryService categoryService;
 
-    public CourseController(CourseService courseService) {
+    public CourseController(CourseService courseService, CategoryService categoryService) {
         this.courseService = courseService;
+        this.categoryService = categoryService;
     }
 
+    // Listagem de cursos
     @GetMapping
     public String list(Model model) {
         List<CourseResponseDTO> courses = courseService.listCourses();
@@ -29,23 +34,42 @@ public class CourseController {
         return "admin/courses/list";
     }
 
+    // Formulário para criar novo curso
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("newCourse", new CourseDTO());
-        return "/admin/courses/newForm";
+
+        List<Category> categories = categoryService.listCategories();
+        model.addAttribute("categories", categories);
+
+        return "admin/courses/newForm";
     }
 
+    // Salvar novo curso
     @PostMapping("/new")
-    public String save(@Valid @ModelAttribute("newCourse") CourseDTO courseRequestDTO,
+    public String save(@Valid @ModelAttribute("newCourse") CourseDTO courseDTO,
                        BindingResult result,
                        Model model) {
+
         if (result.hasErrors()) {
-            return "/admin/courses/newForm";
+            // Se houver erros, devolve categorias para o select
+            model.addAttribute("categories", categoryService.listCategories());
+            return "admin/courses/newForm";
         }
-        courseService.createCourse(courseRequestDTO);
+
+        try {
+            courseService.createCourse(courseDTO);
+        } catch (IllegalArgumentException e) {
+            // Se houver erro (ex: código duplicado ou categoria inválida)
+            result.rejectValue("code", "error.newCourse", e.getMessage());
+            model.addAttribute("categories", categoryService.listCategories());
+            return "admin/courses/newForm";
+        }
+
         return "redirect:/admin/courses";
     }
 
+    // Inativar curso
     @PostMapping("/{code}/inactive")
     public ResponseEntity<?> updateStatus(@PathVariable("code") String courseCode) {
         // TODO: implementar service.inactivateCourse(courseCode);

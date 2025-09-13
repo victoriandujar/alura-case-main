@@ -1,5 +1,6 @@
 package br.com.alura.projeto.course.models;
 
+import br.com.alura.projeto.category.Category;
 import br.com.alura.projeto.course.models.enums.CourseStatusEnum;
 import jakarta.persistence.*;
 
@@ -20,8 +21,9 @@ public class Course {
     @Column(nullable = false)
     private String instructor;
 
-    @Column(nullable = false)
-    private String category;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -34,7 +36,7 @@ public class Course {
 
     public Course() {}
 
-    public Course(String name, String code, String instructor, String category, String description) {
+    public Course(String name, String code, String instructor, Category category, String description) {
         this.name = name;
         this.code = code;
         this.instructor = instructor;
@@ -56,8 +58,8 @@ public class Course {
     public String getInstructor() { return instructor; }
     public void setInstructor(String instructor) { this.instructor = instructor; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public Category getCategory() { return category; }
+    public void setCategory(Category category) { this.category = category; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
