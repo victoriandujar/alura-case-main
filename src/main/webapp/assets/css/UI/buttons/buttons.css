@@ -1,0 +1,41 @@
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-save {
+    background: var(--save-button);
+    color: #000;
+    width: 100%;
+}
+.btn-save:hover {
+    background: #16a34a;
+}
+
+.btn-create {
+    background: var(--create-button);
+    color: #fff;
+}
+.btn-create:hover {
+    background: #1d4ed8;
+}
+
+.btn-edit {
+    background: #facc15;
+    color: #000;
+}
+.btn-edit:hover {
+    background: #eab308;
+}

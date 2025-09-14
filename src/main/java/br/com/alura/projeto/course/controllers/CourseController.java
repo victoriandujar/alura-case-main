@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -28,9 +29,12 @@ public class CourseController {
 
     // Listagem de cursos
     @GetMapping
-    public String list(Model model) {
+    public String list(Model model,
+                       RedirectAttributes redirectAttributes) {
         List<CourseResponseDTO> courses = courseService.listCourses();
         model.addAttribute("courses", courses);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Curso cadastrado com sucesso!");
         return "admin/courses/list";
     }
 
@@ -49,7 +53,8 @@ public class CourseController {
     @PostMapping("/new")
     public String save(@Valid @ModelAttribute("newCourse") CourseDTO courseDTO,
                        BindingResult result,
-                       Model model) {
+                       Model model,
+                       RedirectAttributes redirectAttributes) {
 
         if (result.hasErrors()) {
             // Se houver erros, devolve categorias para o select
@@ -66,6 +71,7 @@ public class CourseController {
             return "admin/courses/newForm";
         }
 
+        redirectAttributes.addFlashAttribute("successMessage", "Curso cadastrado com sucesso!");
         return "redirect:/admin/courses";
     }
 

@@ -6,60 +6,92 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cadastrar novo Curso</title>
+    <title>Cadastrar Novo Curso</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" type="text/css" href="/assets/external-libs/bootstrap/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"/>
+
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/UI/layout/navbar.css">
+    <link rel="stylesheet" href="/assets/css/UI/form/form.css">
+    <link rel="stylesheet" href="/assets/css/UI/buttons/buttons.css">
 </head>
 <body>
+<%@ include file="../layout.jsp" %>
 
-<div class="container mt-4">
-    <h2>Cadastrar novo Curso</h2>
+<div class="bg-teste">
+    <div class="form-container">
+        <div class="form-left"></div>
 
-    <form:form modelAttribute="newCourse"
-               cssClass="form-horizontal panel-body"
-               action="/admin/courses/new"
-               method="post">
+        <div class="form-right">
+            <div>
+                <a href="javascript:history.back()" class="btn-back">
+                    <i class="ph ph-arrow-left"></i> Voltar
+                </a>
 
-        <div class="form-group col-md-9">
-            <label for="newCourse-name">Nome:</label>
-            <form:input path="name" id="newCourse-name" cssClass="form-control" required="required"/>
-            <form:errors path="name" cssClass="text-danger"/>
+                <div>
+                    <h2>Cadastro de Cursos</h2>
+                    <p class="subtitle">Preencha os campos abaixo para criar um novo curso.</p>
+                </div>
+            </div>
+
+            <form:form modelAttribute="newCourse" cssClass="form-grid" action="/admin/courses/new" method="post">
+                <div class="form-group">
+                    <label for="newCourse-name">Nome:</label>
+                    <form:input path="name" id="newCourse-name"
+                                cssClass="form-control"
+                                required="required"
+                                placeholder="Ex: React Native"/>
+                    <form:errors path="name" cssClass="text-danger"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="newCourse-code">Código:</label>
+                    <form:input path="code"
+                                id="newCourse-code"
+                                placeholder="Ex: react-nt"
+                                cssClass="form-control"
+                                required="required"/>
+                    <form:errors path="code" cssClass="text-danger"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="newCourse-instructor">Instrutor:</label>
+                    <form:input path="instructor"
+                                id="newCourse-instructor"
+                                cssClass="form-control"
+                                placeholder="Ex: Victoria Ribeiro"
+                                required="required"/>
+                    <form:errors path="instructor" cssClass="text-danger"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="newCourse-categoryId">Categoria:</label>
+                    <form:select path="categoryId"
+                                 id="newCourse-categoryId"
+                                 cssClass="form-control"
+                                 required="required">
+                        <form:option value="" label="Selecione a categoria"/>
+                        <form:options items="${categories}" itemValue="id" itemLabel="name"/>
+                    </form:select>
+                    <form:errors path="categoryId" cssClass="text-danger"/>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="newCourse-description">Descrição:</label>
+                    <form:textarea path="description"
+                                   id="newCourse-description"
+                                   placeholder="Digite uma descrição detalhada do curso"
+                                   cssClass="form-control"/>
+                    <form:errors path="description" cssClass="text-danger"/>
+                </div>
+
+                <div class="form-actions full-width">
+                    <input type="submit" class="btn btn-save" value="Salvar">
+                </div>
+            </form:form>
         </div>
-
-        <div class="form-group col-md-9">
-            <label for="newCourse-code">Código:</label>
-            <form:input path="code" id="newCourse-code" cssClass="form-control" required="required"/>
-            <form:errors path="code" cssClass="text-danger"/>
-        </div>
-
-        <div class="form-group col-md-9">
-            <label for="newCourse-instructor">Instrutor:</label>
-            <form:input path="instructor" id="newCourse-instructor" cssClass="form-control" required="required"/>
-            <form:errors path="instructor" cssClass="text-danger"/>
-        </div>
-
-        <!-- Dropdown de categorias -->
-        <div class="form-group col-md-9">
-            <label for="newCourse-categoryId">Categoria:</label>
-            <form:select path="categoryId" id="newCourse-categoryId" cssClass="form-control" required="required">
-                <form:option value="" label="-- Selecione a categoria --"/>
-                <form:options items="${categories}" itemValue="id" itemLabel="name"/>
-            </form:select>
-            <form:errors path="categoryId" cssClass="text-danger"/>
-        </div>
-
-        <div class="form-group col-md-9">
-            <label for="newCourse-description">Descrição:</label>
-            <form:textarea path="description" id="newCourse-description" cssClass="form-control"/>
-            <form:errors path="description" cssClass="text-danger"/>
-        </div>
-
-        <div class="form-group col-md-9 mt-3">
-            <input class="btn btn-success" type="submit" value="Salvar"/>
-        </div>
-
-    </form:form>
+    </div>
 </div>
-
 </body>
 </html>
