@@ -6,9 +6,11 @@ import br.com.alura.projeto.course.dtos.CourseDTO;
 import br.com.alura.projeto.course.dtos.CourseResponseDTO;
 import br.com.alura.projeto.course.models.Course;
 import br.com.alura.projeto.course.repositories.CourseRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,5 +48,14 @@ public class CourseService {
                 .stream()
                 .map(CourseResponseDTO::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void inactivateCourse(String code) {
+        Course course = courseRepository.findByCode(code)
+                .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado com código: " + code));
+
+        course.inactivation();
+        courseRepository.save(course);
     }
 }

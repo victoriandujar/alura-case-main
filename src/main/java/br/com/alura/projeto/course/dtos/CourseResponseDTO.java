@@ -4,7 +4,7 @@ import br.com.alura.projeto.course.models.Course;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 public class CourseResponseDTO implements Serializable {
     @Serial
@@ -17,7 +17,7 @@ public class CourseResponseDTO implements Serializable {
     private String category;
     private String description;
     private String status;
-    private LocalDate inactivation_date;
+    private Date inactivation_date;
 
     public CourseResponseDTO(Course course) {
         this.id = course.getId();
@@ -37,5 +37,5 @@ public class CourseResponseDTO implements Serializable {
     public String getCategory() { return category; }
     public String getDescription() { return description; }
     public String getStatus() { return status; }
-    public LocalDate getInactivationDate() { return inactivation_date; }
+    public Date getInactivationDate() { return inactivation_date; }
 }

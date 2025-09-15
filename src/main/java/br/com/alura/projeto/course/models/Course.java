@@ -4,7 +4,8 @@ import br.com.alura.projeto.category.Category;
 import br.com.alura.projeto.course.models.enums.CourseStatusEnum;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 public class Course {
@@ -32,7 +33,7 @@ public class Course {
     @Column(nullable = false)
     private CourseStatusEnum status = CourseStatusEnum.ACTIVE;
 
-    private LocalDate inactivation_date;
+    private Date inactivation_date;
 
     public Course() {}
 
@@ -66,10 +67,10 @@ public class Course {
 
     public CourseStatusEnum getStatus() { return status; }
 
-    public LocalDate getInactivationDate() { return inactivation_date; }
+    public Date getInactivationDate() { return inactivation_date; }
 
     public void inactivation() {
         this.status = CourseStatusEnum.INACTIVE;
-        this.inactivation_date = LocalDate.now();
+        this.inactivation_date = new Date();
     }
 }

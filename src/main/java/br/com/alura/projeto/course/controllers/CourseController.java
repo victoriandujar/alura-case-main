@@ -77,8 +77,10 @@ public class CourseController {
 
     // Inativar curso
     @PostMapping("/{code}/inactive")
-    public ResponseEntity<?> updateStatus(@PathVariable("code") String courseCode) {
-        // TODO: implementar service.inactivateCourse(courseCode);
-        return ResponseEntity.ok().build();
+    public String inactivateCourse(@PathVariable String code, RedirectAttributes redirectAttributes) {
+        courseService.inactivateCourse(code);
+
+        redirectAttributes.addFlashAttribute("successMessageInactive", "Curso inativado com sucesso!");
+        return "redirect:/admin/courses";
     }
 }

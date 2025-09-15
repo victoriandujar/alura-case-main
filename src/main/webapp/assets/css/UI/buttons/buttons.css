@@ -15,6 +15,15 @@
     transition: all 0.3s ease;
 }
 
+.btn-small {
+    padding: 0.5rem 1rem;
+
+    i {
+        font-size: 16px;
+        color: white
+    }
+}
+
 .btn-save {
     background: var(--save-button);
     color: #000;
@@ -33,9 +42,17 @@
 }
 
 .btn-edit {
-    background: #facc15;
+    background: #4F0EAB;
     color: #000;
 }
 .btn-edit:hover {
-    background: #eab308;
+    background: #420A8F;
+}
+
+.btn-inactive {
+    background: #C63A41;
+    color: #000;
+}
+.btn-edit:hover {
+    background: #B2272D;
 }
