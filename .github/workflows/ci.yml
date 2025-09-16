@@ -1,15 +1,18 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - master
+      - '**'
+  pull_request:
+    branches:
+      - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-          MYSQL_DATABASE: projetoalura_test
-        options: >-
-          --health-cmd="mysqladmin ping -h localhost --user=root"
-          --health-interval=10s
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -17,20 +20,19 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v2
         with:
-          distribution: 'temurin'
-          java-version: '21'
-          cache: 'maven'
+          distribution: temurin
+          java-version: 21
 
-      - name: Wait for MySQL
-        run: |
-          for i in {30..0}; do
-            mysqladmin ping -hmysql --silent && break
-            echo "Waiting for MySQL..."
-            sleep 1
-          done
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
       - name: Build Project
         run: mvn clean compile
 
-      - name: Run Tests
-        run: mvn verify
+      - name: Run Tests with H2
+        run: mvn test -Dspring.profiles.active=test
