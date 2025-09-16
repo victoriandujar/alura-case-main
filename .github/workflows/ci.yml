@@ -1,14 +1,3 @@
-name: Build and Test
-
-on:
-  push:
-    branches:
-      - master
-      - '**'
-  pull_request:
-    branches:
-      - master
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,9 +6,7 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-          MYSQL_DATABASE: projetoaluratest
-        ports:
-          - 3306:3306
+          MYSQL_DATABASE: projetoalura_test
         options: >-
           --health-cmd="mysqladmin ping -h localhost --user=root"
           --health-interval=10s
@@ -33,7 +20,14 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           cache: 'maven'
-        continue-on-error: true
+
+      - name: Wait for MySQL
+        run: |
+          for i in {30..0}; do
+            mysqladmin ping -hmysql --silent && break
+            echo "Waiting for MySQL..."
+            sleep 1
+          done
 
       - name: Build Project
         run: mvn clean compile
