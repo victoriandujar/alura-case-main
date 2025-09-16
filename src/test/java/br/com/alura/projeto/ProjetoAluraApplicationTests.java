@@ -10,6 +10,7 @@ class ProjetoAluraApplicationTests {
 
     @Test
     void contextLoads() {
+
     }
 
 }
