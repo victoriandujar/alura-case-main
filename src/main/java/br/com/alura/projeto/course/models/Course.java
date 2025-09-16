@@ -5,7 +5,6 @@ import br.com.alura.projeto.course.models.enums.CourseStatusEnum;
 import br.com.alura.projeto.user.User;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
