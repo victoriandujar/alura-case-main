@@ -1,0 +1,54 @@
+body {
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #000;
+}
+
+h1, h2, h3, h4, h5, p {
+    margin: 0;
+}
+
+form {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+h2 {
+    color: var(--color-title);
+}
+
+p {
+    color: var(--color-subtitle);
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.space-items {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.layout-main {
+    margin: 2rem;
+}
+
+.title-page {
+    margin-bottom: 1rem;
+
+    h2 {
+        margin-bottom: 0.5rem;
+    }
+}
+
+.color-picker {
+    padding: 0;
+    height: 40px;
+    width: 60px;
+    cursor: pointer;
+}

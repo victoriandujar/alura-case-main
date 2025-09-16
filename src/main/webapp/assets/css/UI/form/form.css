@@ -1,0 +1,141 @@
+.bg-teste {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    padding: 1rem;
+}
+
+.form-container {
+    display: flex;
+    width: 1300px;
+    max-width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    border: 1px solid var(--blue-light);
+}
+
+.form-left {
+    flex: 0.8;
+    background: #001747;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+
+    img {
+        width: 450px;
+    }
+}
+
+.form-right {
+    flex: 1;
+    background: var(--blue-dark);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--color-title);
+}
+
+.form-right h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+}
+
+.form-right .subtitle {
+    font-size: 0.95rem;
+    color: var(--color-subtitle);
+    margin-bottom: 2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group.full-width,
+.form-actions.full-width {
+    grid-column: span 2;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    color: var(--color-title);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+}
+
+.form-control {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    background: #071c2c;
+    color: var(--color-title);
+    font-size: 0.95rem;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #388bfd;
+    box-shadow: 0 0 0 2px rgba(56,139,253,0.3);
+}
+
+.form-control::placeholder {
+    color: var(--color-subtitle);
+    opacity: 1;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.form-control::-moz-placeholder {
+    color: var(--color-subtitle);
+}
+.form-control:-ms-input-placeholder {
+    color: var(--color-subtitle);
+}
+.form-control::-ms-input-placeholder {
+    color: #9ca3af;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #051933;
+    color: #DEDEDE;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.btn-back:hover {
+    background: #0A2040;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        flex-direction: column;
+    }
+    .form-left {
+        height: 200px;
+    }
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}

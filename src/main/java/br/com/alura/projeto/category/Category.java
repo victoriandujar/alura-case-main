@@ -45,20 +45,21 @@ public class Category {
     public Long getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-
     public String getColor() {
         return color;
     }
-
     public int getOrder() {
         return order;
     }
-
     public String getCode() {
         return code;
     }
+
+    public void setName(String name) { this.name = name; }
+    public void setCode(String code) { this.code = code; }
+    public void setColor(String color) { this.color = color; }
+    public void setOrder(int order) { this.order = order; }
 }

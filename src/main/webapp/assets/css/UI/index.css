@@ -1,0 +1,25 @@
+@import url("./form/form.css");
+@import url("./form/pagination.css");
+@import url("./form/popup.css");
+
+@import url("./layout/table.css");
+@import url("./layout/navbar.css");
+@import url("./layout/tags.css");
+
+@import url("./buttons/buttons.css");
+
+:root {
+    --color-title: #C0C0CC;
+    --color-subtitle: #929AA6;
+
+    --tag-green: #22c55e;
+    --tag-red: #ef4444;
+
+    --blue-light: #012640;
+    --blue-dark: #021017;
+
+    --create-button: #0065AD;
+    --save-button: #2BFDBE;
+    --edit-button: #4F0EAB;
+    --inactive-button: #C63A41;
+}
