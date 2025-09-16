@@ -10,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 class CategoryRepositoryTest {
+
     @Autowired
     private TestEntityManager entityManager;
 
@@ -20,6 +21,7 @@ class CategoryRepositoryTest {
     void existsByCode_shouldReturnTrue_whenCodeExists() {
         Category category = new Category("Programação", "programacao", "#FFFFFF", 1);
         entityManager.persist(category);
+        entityManager.flush();
 
         boolean result = categoryRepository.existsByCode("programacao");
 

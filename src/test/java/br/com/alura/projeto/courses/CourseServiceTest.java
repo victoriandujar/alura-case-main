@@ -39,9 +39,19 @@ class CourseServiceTest {
 
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> {
-            courseService.createCourse(dto);
-        });
+        assertThrows(EntityNotFoundException.class, () -> courseService.createCourse(dto));
+    }
+
+    @Test
+    void createCourse_shouldThrowException_whenCategoryIsNotFound() {
+        CourseDTO dto = new CourseDTO();
+        dto.setInstructorId(1L);
+        dto.setCategoryId(99L);
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(new User()));
+        when(categoryRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> courseService.createCourse(dto));
     }
 
     @Test

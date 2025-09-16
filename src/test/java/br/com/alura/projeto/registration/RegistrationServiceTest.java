@@ -22,6 +22,7 @@ import static org.mockito.Mockito.never;
 
 @ExtendWith(MockitoExtension.class)
 class RegistrationServiceTest {
+
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -45,9 +46,7 @@ class RegistrationServiceTest {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(courseRepository.findById(1L)).thenReturn(Optional.of(inactiveCourse));
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            registrationService.createRegistration(dto);
-        });
+        assertThrows(IllegalArgumentException.class, () -> registrationService.createRegistration(dto));
 
         verify(registrationRepository, never()).save(any(Registration.class));
     }

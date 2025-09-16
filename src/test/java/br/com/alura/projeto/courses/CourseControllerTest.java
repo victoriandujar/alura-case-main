@@ -36,6 +36,6 @@ class CourseControllerTest {
                 .andExpect(view().name("admin/courses/newForm"))
                 .andExpect(model().attributeExists("newCourse"))
                 .andExpect(model().attributeExists("instructors"))
-                .andExpect(model().attributeExists("allCategories"));
+                .andExpect(model().attributeExists("categories"));
     }
 }
