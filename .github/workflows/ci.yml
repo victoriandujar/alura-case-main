@@ -1,4 +1,5 @@
 name: Build and Test
+
 on:
   push:
     branches:
@@ -11,17 +12,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-          MYSQL_DATABASE: projetoalura_test
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h localhost --user=root"
-          --health-interval=10s
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -29,13 +20,12 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v2
         with:
-          distribution: 'temurin'
-          java-version: '21'
-          cache: 'maven'
-        continue-on-error: true
+          distribution: temurin
+          java-version: 21
+          cache: maven
 
       - name: Build Project
         run: mvn clean compile
 
-      - name: Run Tests
-        run: mvn verify
+      - name: Run Tests with H2
+        run: mvn test -Dspring.profiles.active=test
