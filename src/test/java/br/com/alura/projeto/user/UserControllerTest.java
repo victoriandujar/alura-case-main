@@ -32,7 +32,7 @@ class UserControllerTest {
         NewStudentUserDTO dto = new NewStudentUserDTO();
         dto.setName("Student Test");
         dto.setEmail("student@test.com");
-        dto.setPassword("123456");
+        dto.setPassword("12345678");
 
         mockMvc.perform(post("/user/newStudent")
                         .contentType(MediaType.APPLICATION_JSON)
