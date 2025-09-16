@@ -1,7 +1,8 @@
 package br.com.alura.projeto.registrations;
 
+import br.com.alura.projeto.category.Category;
+import br.com.alura.projeto.category.CategoryRepository;
 import br.com.alura.projeto.course.models.Course;
-import br.com.alura.projeto.course.models.enums.CourseStatusEnum;
 import br.com.alura.projeto.course.repositories.CourseRepository;
 import br.com.alura.projeto.registration.dtos.NewRegistrationDTO;
 import br.com.alura.projeto.registration.repositories.RegistrationRepository;
@@ -31,6 +32,9 @@ class RegistrationServiceTest {
     private CourseRepository courseRepository;
 
     @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
     private RegistrationRepository registrationRepository;
 
     private User student;
@@ -41,13 +45,26 @@ class RegistrationServiceTest {
         registrationRepository.deleteAll();
         courseRepository.deleteAll();
         userRepository.deleteAll();
+        categoryRepository.deleteAll();
 
         student = new User("Maria", "maria@test.com", Role.STUDENT, "123456");
         userRepository.save(student);
 
+        User instructor = new User("Instrutor", "instructor@test.com", Role.INSTRUCTOR, "123456");
+        userRepository.save(instructor);
+
+        Category category = new Category();
+        category.setName("Categoria Teste");
+        category.setCode("CAT001");
+        category.setColor("#FF0000");
+        category.setOrder(1);
+        categoryRepository.save(category);
+
         course = new Course();
         course.setName("Curso Teste Service");
         course.setCode("SERV");
+        course.setInstructor(instructor);
+        course.setCategory(category);
         courseRepository.save(course);
     }
 
