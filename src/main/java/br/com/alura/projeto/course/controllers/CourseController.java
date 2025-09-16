@@ -5,6 +5,10 @@ import br.com.alura.projeto.category.CategoryService;
 import br.com.alura.projeto.course.dtos.CourseDTO;
 import br.com.alura.projeto.course.dtos.CourseResponseDTO;
 import br.com.alura.projeto.course.services.CourseService;
+import br.com.alura.projeto.user.User;
+import br.com.alura.projeto.user.UserListItemDTO;
+import br.com.alura.projeto.user.UserRepository;
+import br.com.alura.projeto.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin/courses")
@@ -22,10 +27,12 @@ public class CourseController {
 
     private final CourseService courseService;
     private final CategoryService categoryService;
+    private final UserService userService;
 
-    public CourseController(CourseService courseService, CategoryService categoryService) {
+    public CourseController(CourseService courseService, CategoryService categoryService, UserService userService) {
         this.courseService = courseService;
         this.categoryService = categoryService;
+        this.userService = userService;
     }
 
     // Listagem de cursos
@@ -47,6 +54,8 @@ public class CourseController {
 
         List<Category> categories = categoryService.listCategories();
         model.addAttribute("categories", categories);
+
+        model.addAttribute("instructors", userService.findAllInstructors());
 
         return "admin/courses/newForm";
     }
@@ -92,6 +101,7 @@ public class CourseController {
 
         model.addAttribute("editCourse", courseDTO);
         model.addAttribute("categories", categories);
+        model.addAttribute("instructors", userService.findAllInstructors());
 
         return "admin/courses/update";
     }
@@ -106,6 +116,7 @@ public class CourseController {
         List<Category> categories = categoryService.listCategories();
 
         if (result.hasErrors()) {
+            model.addAttribute("instructors", userService.findAllInstructors());
             model.addAttribute("categories", categories);
             return "admin/courses/update";
         }
@@ -115,6 +126,7 @@ public class CourseController {
         } catch (IllegalArgumentException e) {
             result.rejectValue("code", "error.editCourse", e.getMessage());
             model.addAttribute("categories", categories);
+            model.addAttribute("instructors", userService.findAllInstructors());
             return "admin/courses/update";
         }
 

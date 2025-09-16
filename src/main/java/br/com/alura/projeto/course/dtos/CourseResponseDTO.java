@@ -2,6 +2,7 @@ package br.com.alura.projeto.course.dtos;
 
 import br.com.alura.projeto.category.CategoryDTO;
 import br.com.alura.projeto.course.models.Course;
+import br.com.alura.projeto.user.UserListItemDTO;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -14,7 +15,7 @@ public class CourseResponseDTO implements Serializable {
     private Long id;
     private String name;
     private String code;
-    private String instructor;
+    private UserListItemDTO instructor;
     private CategoryDTO category;
     private String description;
     private String status;
@@ -24,7 +25,11 @@ public class CourseResponseDTO implements Serializable {
         this.id = course.getId();
         this.name = course.getName();
         this.code = course.getCode();
-        this.instructor = course.getInstructor();
+
+        this.instructor = course.getInstructor() != null
+                ? new UserListItemDTO(course.getInstructor())
+                : null;
+
         this.category = course.getCategory() != null
                 ? new CategoryDTO(course.getCategory())
                 : null;
@@ -36,7 +41,9 @@ public class CourseResponseDTO implements Serializable {
     public Long getId() { return id; }
     public String getName() { return name; }
     public String getCode() { return code; }
-    public String getInstructor() { return instructor; }
+
+    public UserListItemDTO getInstructor() { return instructor; }
+
     public CategoryDTO getCategory() { return category; }
     public String getDescription() { return description; }
     public String getStatus() { return status; }

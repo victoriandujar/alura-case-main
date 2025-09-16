@@ -52,3 +52,9 @@ p {
     width: 60px;
     cursor: pointer;
 }
+
+.text-danger {
+    color: var(--tag-red);
+    margin-top: 0.5rem;
+    font-weight: bold;
+}

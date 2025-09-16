@@ -70,7 +70,7 @@
                 <tr>
                     <td>${course.name}</td>
                     <td>${course.code}</td>
-                    <td>${course.instructor}</td>
+                    <td>${course.instructor.name}</td>
                     <td>
                         <span class="category-color-tag" style="background-color: ${course.category.color};">
                                 ${course.category.name}

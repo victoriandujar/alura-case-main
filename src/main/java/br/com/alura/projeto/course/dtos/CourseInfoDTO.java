@@ -9,18 +9,13 @@ public class CourseInfoDTO {
     public CourseInfoDTO(Course course) {
         this.name = course.getName();
         this.code = course.getCode();
-        this.instructor = course.getInstructor();
+
+        this.instructor = course.getInstructor() != null
+                ? course.getInstructor().getName()
+                : null;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getInstructor() {
-        return instructor;
-    }
+    public String getName() { return name; }
+    public String getCode() { return code; }
+    public String getInstructor() { return instructor; }
 }

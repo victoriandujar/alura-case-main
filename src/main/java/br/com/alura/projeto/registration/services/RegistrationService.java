@@ -3,7 +3,9 @@ package br.com.alura.projeto.registration.services;
 import br.com.alura.projeto.course.models.Course;
 import br.com.alura.projeto.course.models.enums.CourseStatusEnum;
 import br.com.alura.projeto.course.repositories.CourseRepository;
+import br.com.alura.projeto.registration.RegistrationReportItem;
 import br.com.alura.projeto.registration.dtos.NewRegistrationDTO;
+import br.com.alura.projeto.registration.interfaces.IRegistrationReport;
 import br.com.alura.projeto.registration.models.Registration;
 import br.com.alura.projeto.registration.repositories.RegistrationRepository;
 import br.com.alura.projeto.user.User;
@@ -11,6 +13,8 @@ import br.com.alura.projeto.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class RegistrationService {
@@ -43,5 +47,19 @@ public class RegistrationService {
 
         Registration newRegistration = new Registration(user, course);
         registrationRepository.save(newRegistration);
+    }
+
+    public List<RegistrationReportItem> getRegistrationReport() {
+        List<IRegistrationReport> reportData = registrationRepository.findRegistrationReport();
+
+        return reportData.stream()
+                .map(item -> new RegistrationReportItem(
+                        item.getCourseName(),
+                        item.getCourseCode(),
+                        item.getInstructorName(),
+                        item.getInstructorEmail(),
+                        item.getTotalRegistrations()
+                ))
+                .toList();
     }
 }

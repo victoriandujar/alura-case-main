@@ -57,13 +57,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="editCourse-instructor">Instrutor:</label>
-                    <form:input path="instructor"
-                                id="editCourse-instructor"
-                                cssClass="form-control"
-                                placeholder="Ex: Victoria Ribeiro"
-                                required="required"/>
-                    <form:errors path="instructor" cssClass="text-danger"/>
+                    <label for="newCourse-instructorId">Instrutor:</label>
+                    <form:select path="instructorId"
+                                 id="newCourse-instructorId"
+                                 cssClass="form-control"
+                                 required="required">
+                        <form:option value="" label="Selecione o instrutor"/>
+                        <form:options items="${instructors}" itemValue="id" itemLabel="name"/>
+                    </form:select>
                 </div>
 
                 <div class="form-group">
