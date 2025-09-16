@@ -49,6 +49,9 @@
     </div>
 
     <div class="card-list">
+        <c:if test="${empty coursePage.content}">
+            <p>Nenhum curso encontrado.</p>
+        </c:if>
         <table class="responsive-table">
             <thead>
             <tr>

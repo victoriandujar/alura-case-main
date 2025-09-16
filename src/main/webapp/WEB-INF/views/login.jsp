@@ -8,45 +8,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+
     <link rel="stylesheet" type="text/css" href="/assets/css/login.css">
-    <link rel="stylesheet" href="/assets/css/UI/form/form.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 </head>
 <body class="login-page">
 <div class="container">
     <div class="login-box">
-        <div class="title">
-            <h2>Já estuda com a gente?</h2>
-            <p>Faça seu login e boa aula!</p>
-        </div>
-
-        <form action="<c:url value='/signin'/>" method="post">
-            <div class="form-group">
-                <label for="email">E-mail:</label>
-                <input class="form-control" type="text" name="email" id="email" required/>
-            </div>
-
-            <div class="form-group">
-                <label for="password">Senha:</label>
-                <input class="form-control" type="password" name="password" id="password" required/>
-            </div>
-
-            <div class="form-actions full-width">
-                <button type="submit" class="btn-login">ENTRAR</button>
-            </div>
-
-            <c:if test="${not empty param.error}">
-                <p style="color:red;">Usuário ou senha inválidos</p>
-            </c:if>
-
-            <c:if test="${not empty param.logout}">
-                <p style="color:green;">Logout realizado com sucesso!</p>
-            </c:if>
-        </form>
+        <h2>Já estuda com a gente?</h2>
+        <p>Faça seu login e boa aula!</p>
+        <a href="/admin/courses" class="btn-login">ENTRAR</a>
     </div>
 
     <div class="courses">
         <h2>Ainda não estuda com a gente?</h2>
         <p>São mais de mil cursos nas seguintes áreas:</p>
+
+        <div class="grid">
+            <c:forEach items="${reportData}" var="categoryData">
+                <div class="card">
+                    <h3 style="color: ${categoryData.color};">Escola_</h3>
+                    <p style="color: ${categoryData.color};">${categoryData.name}</p>
+
+                        <c:if test="${empty categoryData.courses}">
+                            <p>Nenhum curso nesta categoria.</p>
+                        </c:if>
+
+                        <c:if test="${not empty categoryData.courses}">
+                            <c:forEach items="${categoryData.courses}" var="course" varStatus="loop">
+                                <c:if test="${not empty course.name}">
+                                    <span>${course.name}</span><c:if test="${not loop.last}">, </c:if>
+                                </c:if>
+                            </c:forEach>
+                        </c:if>
+                </div>
+            </c:forEach>
+        </div>
     </div>
 </div>
 </body>
