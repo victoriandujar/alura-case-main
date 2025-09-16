@@ -6,6 +6,8 @@ import br.com.alura.projeto.course.dtos.CourseDTO;
 import br.com.alura.projeto.course.dtos.CourseResponseDTO;
 import br.com.alura.projeto.course.models.Course;
 import br.com.alura.projeto.course.repositories.CourseRepository;
+import br.com.alura.projeto.user.User;
+import br.com.alura.projeto.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +20,12 @@ public class CourseService {
 
     private final CourseRepository courseRepository;
     private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
 
-    public CourseService(CourseRepository courseRepository, CategoryRepository categoryRepository) {
+    public CourseService(CourseRepository courseRepository, CategoryRepository categoryRepository, UserRepository userRepository) {
         this.courseRepository = courseRepository;
         this.categoryRepository = categoryRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional
@@ -33,10 +37,13 @@ public class CourseService {
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID"));
 
+        User instructor = userRepository.findById(dto.getInstructorId())
+                .orElseThrow(() -> new EntityNotFoundException("Instrutor não encontrado: "));
+
         Course course = new Course();
         course.setName(dto.getName());
         course.setCode(dto.getCode());
-        course.setInstructor(dto.getInstructor());
+        course.setInstructor(instructor);
         course.setCategory(category);
         course.setDescription(dto.getDescription());
 
@@ -66,25 +73,28 @@ public class CourseService {
         dto.setId(course.getId());
         dto.setName(course.getName());
         dto.setCode(course.getCode());
-        dto.setInstructor(course.getInstructor());
+        dto.setInstructorId(course.getInstructor().getId());
         dto.setDescription(course.getDescription());
         dto.setCategoryId(course.getCategory().getId());
 
         return dto;
     }
 
+    @Transactional
     public void updateCourse(Long id, CourseDTO dto) {
         Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado com id: " + id));
 
-        course.setName(dto.getName());
-        course.setInstructor(dto.getInstructor());
-        course.setDescription(dto.getDescription());
+        User instructor = userRepository.findById(dto.getInstructorId())
+                .orElseThrow(() -> new EntityNotFoundException("Instrutor não encontrado: "));
 
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new IllegalArgumentException("Categoria inválida"));
-        course.setCategory(category);
 
+        course.setName(dto.getName());
+        course.setInstructor(instructor);
+        course.setDescription(dto.getDescription());
+        course.setCategory(category);
         course.setCode(dto.getCode());
 
         courseRepository.save(course);

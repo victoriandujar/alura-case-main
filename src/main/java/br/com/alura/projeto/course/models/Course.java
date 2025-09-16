@@ -2,6 +2,7 @@ package br.com.alura.projeto.course.models;
 
 import br.com.alura.projeto.category.Category;
 import br.com.alura.projeto.course.models.enums.CourseStatusEnum;
+import br.com.alura.projeto.user.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -19,8 +20,9 @@ public class Course {
     @Column(nullable = false, unique = true, length = 10)
     private String code;
 
-    @Column(nullable = false)
-    private String instructor;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "instructor_id")
+    private User instructor;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id")
@@ -37,7 +39,7 @@ public class Course {
 
     public Course() {}
 
-    public Course(String name, String code, String instructor, Category category, String description) {
+    public Course(String name, String code, User instructor, Category category, String description) {
         this.name = name;
         this.code = code;
         this.instructor = instructor;
@@ -56,8 +58,8 @@ public class Course {
     public String getCode() { return code; }
     public void setCode(String code) { this.code = code; }
 
-    public String getInstructor() { return instructor; }
-    public void setInstructor(String instructor) { this.instructor = instructor; }
+    public User getInstructor() { return instructor; }
+    public void setInstructor(User instructor) { this.instructor = instructor; }
 
     public Category getCategory() { return category; }
     public void setCategory(Category category) { this.category = category; }

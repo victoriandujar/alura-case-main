@@ -1,5 +1,6 @@
 package br.com.alura.projeto.category;
 
+import br.com.alura.projeto.course.models.Course;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -7,6 +8,8 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Category {
@@ -31,6 +34,9 @@ public class Category {
     private int order;
 
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Course> courses = new ArrayList<>();
 
     @Deprecated
     public Category() {}
@@ -57,7 +63,9 @@ public class Category {
     public String getCode() {
         return code;
     }
+    public List<Course> getCourses() { return courses; }
 
+    public void setCourses(List<Course> courses) { this.courses = courses; }
     public void setName(String name) { this.name = name; }
     public void setCode(String code) { this.code = code; }
     public void setColor(String color) { this.color = color; }

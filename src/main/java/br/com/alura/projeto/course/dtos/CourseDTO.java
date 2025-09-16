@@ -18,8 +18,8 @@ public class CourseDTO implements Serializable {
     @Size(min = 4, max = 10, message = "The code must be between 4 and 10 characters long.")
     private String code;
 
-    @NotBlank(message = "Inform the instructor")
-    private String instructor;
+    @NotNull(message = "Instructor is required")
+    private Long instructor_id;
 
     @NotNull(message = "Category is required")
     private Long categoryId;
@@ -37,8 +37,8 @@ public class CourseDTO implements Serializable {
     public String getCode() { return code; }
     public void setCode(String code) { this.code = code; }
 
-    public String getInstructor() { return instructor; }
-    public void setInstructor(String instructor) { this.instructor = instructor; }
+    public Long getInstructorId() { return instructor_id; }
+    public void setInstructorId(Long instructor) { this.instructor_id = instructor; }
 
     public Long getCategoryId() { return categoryId; }
     public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }

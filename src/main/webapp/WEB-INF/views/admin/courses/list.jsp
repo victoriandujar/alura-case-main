@@ -49,6 +49,9 @@
     </div>
 
     <div class="card-list">
+        <c:if test="${empty coursePage.content}">
+            <p>Nenhum curso encontrado.</p>
+        </c:if>
         <table class="responsive-table">
             <thead>
             <tr>
@@ -67,7 +70,7 @@
                 <tr>
                     <td>${course.name}</td>
                     <td>${course.code}</td>
-                    <td>${course.instructor}</td>
+                    <td>${course.instructor.name}</td>
                     <td>
                         <span class="category-color-tag" style="background-color: ${course.category.color};">
                                 ${course.category.name}
