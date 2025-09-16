@@ -57,13 +57,20 @@ class RegistrationControllerTest {
         student = new User("João", "joao@test.com", Role.STUDENT, "123456");
         userRepository.save(student);
 
+        User instructor = new User("Maria", "maria@test.com", Role.INSTRUCTOR, "123456");
+        userRepository.save(instructor);
+
         category = new Category();
         category.setName("Categoria Teste");
-        categoryRepository.save(category);
+        category.setCode("CAT001");
+        category.setColor("#FF0000");
+        category.setOrder(1);
+        category = categoryRepository.saveAndFlush(category);
 
         course = new Course();
         course.setName("Curso Teste");
         course.setCode("TEST");
+        course.setInstructor(instructor);
         course.setCategory(category);
         courseRepository.save(course);
     }
