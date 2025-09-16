@@ -39,7 +39,9 @@ class CourseServiceTest {
 
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> courseService.createCourse(dto));
+        assertThrows(IllegalArgumentException.class, () -> {
+            courseService.createCourse(dto);
+        });
     }
 
     @Test
@@ -51,7 +53,9 @@ class CourseServiceTest {
         when(userRepository.findById(1L)).thenReturn(Optional.of(new User()));
         when(categoryRepository.findById(99L)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> courseService.createCourse(dto));
+        assertThrows(IllegalArgumentException.class, () -> {
+            courseService.createCourse(dto);
+        });
     }
 
     @Test
