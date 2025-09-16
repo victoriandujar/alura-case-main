@@ -1,7 +1,5 @@
 package br.com.alura.projeto.category;
 
-import br.com.alura.projeto.category.Category;
-import br.com.alura.projeto.category.CategoryRepository;
 import br.com.alura.projeto.category.dtos.CategoryWithCoursesDTO;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
