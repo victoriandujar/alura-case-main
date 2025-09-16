@@ -12,31 +12,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-          MYSQL_DATABASE: projetoaluratest
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h localhost --user=root"
-          --health-interval=10s
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v2
+      - name: Set up JDK 21 and Maven Cache
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
           cache: 'maven'
-        continue-on-error: true
 
-      - name: Build Project
-        run: mvn clean compile
-
-      - name: Run Tests
-        run: mvn verify
+      - name: Build and Run Tests
+        run: mvn -B package --file pom.xml
