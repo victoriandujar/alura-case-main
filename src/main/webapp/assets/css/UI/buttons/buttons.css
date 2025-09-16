@@ -38,11 +38,11 @@
     color: #fff;
 }
 .btn-create:hover {
-    background: #1d4ed8;
+    background: #00548f;
 }
 
 .btn-edit {
-    background: #4F0EAB;
+    background: var(--edit-button);
     color: #000;
 }
 .btn-edit:hover {
@@ -50,9 +50,9 @@
 }
 
 .btn-inactive {
-    background: #C63A41;
+    background: var(--inactive-button);
     color: #000;
 }
-.btn-edit:hover {
+.btn-inactive:hover {
     background: #B2272D;
 }

@@ -5,20 +5,6 @@ body {
     background: #000;
 }
 
-:root {
-    --color-title: #C0C0CC;
-    --color-subtitle: #929AA6;
-
-    --tag-green: #22c55e;
-    --tag-red: #ef4444;
-
-    --blue-light: #012640;
-    --blue-dark: #021017;
-
-    --create-button: #00548f;
-    --save-button: #2BFDBE;
-}
-
 h1, h2, h3, h4, h5, p {
     margin: 0;
 }
@@ -58,4 +44,11 @@ p {
     h2 {
         margin-bottom: 0.5rem;
     }
+}
+
+.color-picker {
+    padding: 0;
+    height: 40px;
+    width: 60px;
+    cursor: pointer;
 }

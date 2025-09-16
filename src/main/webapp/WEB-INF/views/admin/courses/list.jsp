@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>Spring Boot JSP</title>
+    <title>Cursos</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
@@ -15,27 +15,29 @@
     <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.6/dist/notiflix-3.2.6.min.js"></script>
 
     <link rel="stylesheet" href="/assets/css/global.css">
-    <link rel="stylesheet" href="/assets/css/UI/layout/navbar.css">
-    <link rel="stylesheet" href="/assets/css/UI/layout/table.css">
-    <link rel="stylesheet" href="/assets/css/UI/form/popup.css">
-    <link rel="stylesheet" href="/assets/css/UI/buttons/buttons.css">
+    <link rel="stylesheet" href="/assets/css/UI/index.css">
 </head>
 <body>
 <%@ include file="../layout.jsp" %>
+<script src="/assets/js/loadingData.js"></script>
 
 <div class="layout-main">
     <c:if test="${not empty successMessage}">
-        <div class="popup success-popup" id="successPopup">
-            <p>${successMessage}</p>
-            <span class="close" onclick="closePopup()">&times;</span>
-        </div>
+        <script>
+            Notiflix.Notify.success('${successMessage}');
+        </script>
     </c:if>
 
     <c:if test="${not empty successMessageInactive}">
-        <div class="popup success-popup" id="successPopupInactive">
-            <p>${successMessageInactive}</p>
-            <span class="close" onclick="closePopup()">&times;</span>
-        </div>
+        <script>
+            Notiflix.Notify.success('${successMessageInactive}');
+        </script>
+    </c:if>
+
+    <c:if test="${not empty successEditMessage}">
+        <script>
+            Notiflix.Notify.success('${successEditMessage}');
+        </script>
     </c:if>
 
     <div class="title-page flex-between">
@@ -61,12 +63,16 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${courses}" var="course">
+            <c:forEach items="${coursePage.content}" var="course">
                 <tr>
                     <td>${course.name}</td>
                     <td>${course.code}</td>
                     <td>${course.instructor}</td>
-                    <td>${course.category}</td>
+                    <td>
+                        <span class="category-color-tag" style="background-color: ${course.category.color};">
+                                ${course.category.name}
+                        </span>
+                    </td>
                     <td>${empty course.description ? 'Não informado' : course.description}</td>
                     <td>
                         <c:choose>
@@ -102,53 +108,47 @@
                                 </form>
                             </c:if>
 
-                            <button class="btn btn-edit btn-small" title="Editar curso">
-                                <i class="ph ph-pen"></i>
-                            </button>
+                            <a href="/admin/courses/edit/${course.id}">
+                                <button class="btn btn-edit btn-small" title="Editar curso">
+                                    <i class="ph ph-pen"></i>
+                                </button>
+                            </a>
                         </div>
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
+
+        <c:if test="${coursePage.totalPages > 1}">
+            <nav class="pagination">
+                <c:if test="${coursePage.number > 0}">
+                    <a href="?page=${coursePage.number - 1}&size=${coursePage.size}" class="page-link"><i class="ph ph-arrow-left"></i></a>
+                </c:if>
+                <c:if test="${coursePage.number == 0}">
+                    <span class="page-link disabled"><i class="ph ph-arrow-left"></i></span>
+                </c:if>
+
+                <c:forEach begin="0" end="${coursePage.totalPages - 1}" var="i">
+                    <c:choose>
+                        <c:when test="${i == coursePage.number}">
+                            <span class="page-link current">${i + 1}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="?page=${i}&size=${coursePage.size}" class="page-link">${i + 1}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+
+                <c:if test="${coursePage.number + 1 < coursePage.totalPages}">
+                    <a href="?page=${coursePage.number + 1}&size=${coursePage.size}" class="page-link"><i class="ph ph-arrow-right"></i></a>
+                </c:if>
+                <c:if test="${coursePage.number + 1 >= coursePage.totalPages}">
+                    <span class="page-link disabled"><i class="ph ph-arrow-right"></i></span>
+                </c:if>
+            </nav>
+        </c:if>
     </div>
 </div>
-
-<script>
-    window.addEventListener('DOMContentLoaded', () => {
-        ['successPopupCreate','successPopupInactive'].forEach(id => {
-            const popup = document.getElementById(id);
-            if(popup) {
-                popup.classList.add('show');
-                setTimeout(() => popup.classList.remove('show'), 3000);
-            }
-        });
-    });
-
-    function closePopup(id) {
-        const popup = document.getElementById(id);
-        if(popup) popup.classList.remove('show');
-    }
-
-    function showLoadingAndSubmit(form) {
-        showLoading();
-        setTimeout(() => form.submit(), 50);
-    }
-
-
-    function showLoading() {
-        Notiflix.Loading.standard('Carregando...');
-    }
-
-    function hideLoading() {
-        Notiflix.Loading.remove();
-    }
-
-    Notiflix.Loading.standard('Carregando...');
-
-    window.addEventListener('DOMContentLoaded', () => {
-        Notiflix.Loading.remove();
-    });
-</script>
 </body>
 </html>

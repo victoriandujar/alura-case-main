@@ -10,9 +10,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 
 @Service
 public class CourseService {
@@ -33,6 +32,7 @@ public class CourseService {
 
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID"));
+
         Course course = new Course();
         course.setName(dto.getName());
         course.setCode(dto.getCode());
@@ -43,19 +43,50 @@ public class CourseService {
         courseRepository.save(course);
     }
 
-    public List<CourseResponseDTO> listCourses() {
-        return courseRepository.findAll()
-                .stream()
-                .map(CourseResponseDTO::new)
-                .collect(Collectors.toList());
+    public Page<CourseResponseDTO> listCourses(Pageable pageable) {
+        return courseRepository.findAllWithCategory(pageable)
+                .map(CourseResponseDTO::new);
     }
 
     @Transactional
     public void inactivateCourse(String code) {
         Course course = courseRepository.findByCode(code)
-                .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado com código: " + code));
+                .orElseThrow(() -> new EntityNotFoundException("Course not found with code: " + code));
 
         course.inactivation();
+        courseRepository.save(course);
+    }
+
+    public CourseDTO findCourseDTOById(Long id) {
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado com id: " + id));
+
+        CourseDTO dto = new CourseDTO();
+
+        dto.setId(course.getId());
+        dto.setName(course.getName());
+        dto.setCode(course.getCode());
+        dto.setInstructor(course.getInstructor());
+        dto.setDescription(course.getDescription());
+        dto.setCategoryId(course.getCategory().getId());
+
+        return dto;
+    }
+
+    public void updateCourse(Long id, CourseDTO dto) {
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Curso não encontrado com id: " + id));
+
+        course.setName(dto.getName());
+        course.setInstructor(dto.getInstructor());
+        course.setDescription(dto.getDescription());
+
+        Category category = categoryRepository.findById(dto.getCategoryId())
+                .orElseThrow(() -> new IllegalArgumentException("Categoria inválida"));
+        course.setCategory(category);
+
+        course.setCode(dto.getCode());
+
         courseRepository.save(course);
     }
 }

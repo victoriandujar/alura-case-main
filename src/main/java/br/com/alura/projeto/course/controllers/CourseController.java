@@ -6,13 +6,14 @@ import br.com.alura.projeto.course.dtos.CourseDTO;
 import br.com.alura.projeto.course.dtos.CourseResponseDTO;
 import br.com.alura.projeto.course.services.CourseService;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.util.List;
 
 @Controller
@@ -30,11 +31,12 @@ public class CourseController {
     // Listagem de cursos
     @GetMapping
     public String list(Model model,
-                       RedirectAttributes redirectAttributes) {
-        List<CourseResponseDTO> courses = courseService.listCourses();
-        model.addAttribute("courses", courses);
+                       @RequestParam(defaultValue = "0") int page,
+                       @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<CourseResponseDTO> coursePage = courseService.listCourses(pageable);
 
-        redirectAttributes.addFlashAttribute("successMessage", "Curso cadastrado com sucesso!");
+        model.addAttribute("coursePage", coursePage);
         return "admin/courses/list";
     }
 
@@ -56,18 +58,18 @@ public class CourseController {
                        Model model,
                        RedirectAttributes redirectAttributes) {
 
+        List<Category> categories = categoryService.listCategories(); // carrega apenas uma vez
+
         if (result.hasErrors()) {
-            // Se houver erros, devolve categorias para o select
-            model.addAttribute("categories", categoryService.listCategories());
+            model.addAttribute("categories", categories);
             return "admin/courses/newForm";
         }
 
         try {
             courseService.createCourse(courseDTO);
         } catch (IllegalArgumentException e) {
-            // Se houver erro (ex: código duplicado ou categoria inválida)
             result.rejectValue("code", "error.newCourse", e.getMessage());
-            model.addAttribute("categories", categoryService.listCategories());
+            model.addAttribute("categories", categories);
             return "admin/courses/newForm";
         }
 
@@ -79,8 +81,45 @@ public class CourseController {
     @PostMapping("/{code}/inactive")
     public String inactivateCourse(@PathVariable String code, RedirectAttributes redirectAttributes) {
         courseService.inactivateCourse(code);
-
         redirectAttributes.addFlashAttribute("successMessageInactive", "Curso inativado com sucesso!");
         return "redirect:/admin/courses";
     }
+
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable Long id, Model model) {
+        CourseDTO courseDTO = courseService.findCourseDTOById(id);
+        List<Category> categories = categoryService.listCategories();
+
+        model.addAttribute("editCourse", courseDTO);
+        model.addAttribute("categories", categories);
+
+        return "admin/courses/update";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateCourse(@PathVariable Long id,
+                               @Valid @ModelAttribute("editCourse") CourseDTO courseDTO,
+                               BindingResult result,
+                               Model model,
+                               RedirectAttributes redirectAttributes) {
+
+        List<Category> categories = categoryService.listCategories();
+
+        if (result.hasErrors()) {
+            model.addAttribute("categories", categories);
+            return "admin/courses/update";
+        }
+
+        try {
+            courseService.updateCourse(id, courseDTO);
+        } catch (IllegalArgumentException e) {
+            result.rejectValue("code", "error.editCourse", e.getMessage());
+            model.addAttribute("categories", categories);
+            return "admin/courses/update";
+        }
+
+        redirectAttributes.addFlashAttribute("successEditMessage", "Curso atualizado com sucesso!");
+        return "redirect:/admin/courses";
+    }
+
 }

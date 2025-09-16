@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cadastrar Nova Categoria</title>
+    <title>Editar Categoria</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
 <div class="bg-teste">
     <div class="form-container">
         <div class="form-left">
-            <img src="<c:url value='/assets/images/bg-course.png' />" />
+            <img src="<c:url value='/assets/images/bg-course-edit.png' />" />
         </div>
 
         <div class="form-right">
@@ -32,12 +32,13 @@
                 </a>
 
                 <div>
-                    <h2>Cadastro de Categorias</h2>
-                    <p class="subtitle">Preencha os campos abaixo para criar uma nova categoria.</p>
+                    <h2>Editar Categoria - ${editCategory.name}</h2>
+                    <p class="subtitle">Preencha os campos abaixo para editar uma categoria.</p>
                 </div>
             </div>
 
-            <form:form modelAttribute="newCategoryForm" cssClass="form-grid" action="/admin/category/new" method="post">
+            <c:url var="formActionUrl" value="/admin/category/edit/${editCategory.id}" />
+            <form:form modelAttribute="editCategory" cssClass="form-grid" action="${formActionUrl}" method="post">
                 <div class="form-group">
                     <label for="newCategory-name">Nome:</label>
                     <form:input path="name"
@@ -79,7 +80,7 @@
                 </div>
 
                 <div class="form-actions full-width">
-                    <input class="btn btn-save" type="submit" value="Salvar"/>
+                    <input class="btn btn-save" type="submit" value="Editar"/>
                 </div>
             </form:form>
         </div>
@@ -89,4 +90,3 @@
 <script src="/assets/js/colorPicker.js"></script>
 </body>
 </html>
-

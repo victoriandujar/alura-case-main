@@ -7,23 +7,22 @@ body {
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
-    padding: 2rem;
+    padding: 4rem;
 }
 
 .container {
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 3rem;
-    max-width: 1200px;
+    max-width: 1450px;
     width: 100%;
 }
 
 .login-box {
-    background: rgba(0, 35, 90, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    background: rgba(9, 51, 102, .4);
+    border: .5px solid #167bf7;
+    border-radius: .3125em;
     padding: 2rem;
-    text-align: center;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -54,6 +53,22 @@ body {
     background: #64d9a7;
 }
 
+.title {
+    text-align: center;
+
+    h2 {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    p {
+        margin: 0.5rem 0 2rem 0;
+        font-size: 1rem;
+        color: #cfd8e3;
+    }
+}
+
 .btn-login {
     display: inline-block;
     background: #7CFFCB;
@@ -67,6 +82,8 @@ body {
     transition: background 0.3s;
     text-decoration: none;
     text-align: center;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .btn-login:hover {
@@ -76,17 +93,6 @@ body {
 .courses {
     display: flex;
     flex-direction: column;
-}
-
-.courses h2 {
-    margin-bottom: 0.5rem;
-    font-size: 1.6rem;
-}
-
-.courses p {
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-    color: #cfd8e3;
 }
 
 .grid {
@@ -118,4 +124,14 @@ body {
     font-size: 0.9rem;
     line-height: 1.4;
     color: #cfd8e3;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group label {
+    letter-spacing: 0;
 }

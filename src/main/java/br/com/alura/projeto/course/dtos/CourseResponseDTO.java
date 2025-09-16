@@ -1,5 +1,6 @@
 package br.com.alura.projeto.course.dtos;
 
+import br.com.alura.projeto.category.CategoryDTO;
 import br.com.alura.projeto.course.models.Course;
 
 import java.io.Serial;
@@ -14,7 +15,7 @@ public class CourseResponseDTO implements Serializable {
     private String name;
     private String code;
     private String instructor;
-    private String category;
+    private CategoryDTO category;
     private String description;
     private String status;
     private Date inactivation_date;
@@ -24,7 +25,9 @@ public class CourseResponseDTO implements Serializable {
         this.name = course.getName();
         this.code = course.getCode();
         this.instructor = course.getInstructor();
-        this.category = course.getCategory() != null ? course.getCategory().getName() : null;
+        this.category = course.getCategory() != null
+                ? new CategoryDTO(course.getCategory())
+                : null;
         this.description = course.getDescription();
         this.status = course.getStatus().name();
         this.inactivation_date = course.getInactivationDate();
@@ -34,7 +37,7 @@ public class CourseResponseDTO implements Serializable {
     public String getName() { return name; }
     public String getCode() { return code; }
     public String getInstructor() { return instructor; }
-    public String getCategory() { return category; }
+    public CategoryDTO getCategory() { return category; }
     public String getDescription() { return description; }
     public String getStatus() { return status; }
     public Date getInactivationDate() { return inactivation_date; }
